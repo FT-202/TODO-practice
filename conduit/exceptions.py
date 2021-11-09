@@ -6,6 +6,7 @@ def template(data, code=500):
 
 
 USER_NOT_FOUND = template(['User not found'], code=404)
+GEO_LOCATION_NOT_FOUND = template(['User not found'], code=404)
 USER_ALREADY_REGISTERED = template(['User already registered'], code=422)
 UNKNOWN_ERROR = template([], code=500)
 ARTICLE_NOT_FOUND = template(['Article not found'], code=404)
@@ -45,3 +46,7 @@ class InvalidUsage(Exception):
     @classmethod
     def comment_not_owned(cls):
         return cls(**COMMENT_NOT_OWNED)
+
+    @classmethod
+    def geo_location_not_found(cls):
+        return cls(**GEO_LOCATION_NOT_FOUND)

@@ -22,19 +22,25 @@ blueprint = Blueprint('geolocations', __name__)
 @jwt_required
 # @use_kwargs(geolocation_schema)
 @marshal_with(geolocation_schema)
-def make_geolocation(entity, eid):
-    ...
+def make_geolocation(entity, eid, point_lat, point_lon):
+    geo = Geolocation(eid=eid, entity=entity,lat=point_lat, lon=point_lon)
+    geo.save()
+    return geo
 
 
 @blueprint.route('/api/geo/<entity>/<eid>', methods=('DELETE',))
 @jwt_required
 def delete_geolocation(entity, eid):
-    ...
+    geo = Geolocation.query.filter_by(entity=entity, eid=eid).first()
+    geo.delete()
+    return '', 200
 
 
 @blueprint.route('/api/geo/<entity>/<eid>', methods=('GET',))
 @jwt_optional
 @marshal_with(geolocation_schema)
 def get_geolocation(entity, eid):
-    ...
-
+    geo = Geolocation.query.filter_by(entity=entity, eid=eid).first()
+    if not geo:
+        raise InvalidUsage.geo_location_not_found()
+    return geo
