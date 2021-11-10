@@ -23,7 +23,7 @@ blueprint = Blueprint('geolocations', __name__)
 # @use_kwargs(geolocation_schema)
 @marshal_with(geolocation_schema)
 def make_geolocation(entity, eid, point_lat, point_lon):
-    geo = Geolocation(eid=eid, entity=entity,lat=point_lat, lon=point_lon)
+    geo = Geolocation(eid=eid, entity=entity, lat=point_lat, lon=point_lon)
     geo.save()
     return geo
 
