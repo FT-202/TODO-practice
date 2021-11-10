@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """Model unit tests."""
 import datetime as dt
+from decimal import Decimal
 
 import pytest
 
+from conduit.geo.models import Geolocation
 from conduit.user.models import User
 from conduit.profile.models import UserProfile
 from conduit.articles.models import Article, Tags, Comment
@@ -179,3 +181,14 @@ class TestComment:
         assert comment1.article == article
         assert comment1.author == user.profile
         assert len(article.comments.all()) == 2
+
+
+@pytest.mark.usefixtures('db')
+class TestGeolocation:
+    def test_create_geolocation(self):
+        """Get geolocation by ID."""
+        geolocation = Geolocation(1234, lat=Decimal(75.85), lon=Decimal(75.85))
+        geolocation.save()
+        assert geolocation.eid == 1234 # в датабазе должен быть тип int
+        assert geolocation.lat == Decimal(75.85)
+        assert geolocation.eid == Decimal(75.85)
